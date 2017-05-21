@@ -23,7 +23,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class DetailsActivity extends AppCompatActivity {
 
     SharedPreferences sharedPreferences;
-    public static final String TAG = "DetailsActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,14 +32,13 @@ public class DetailsActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences(MainActivity.SHARED_PREFS_NAME, MODE_PRIVATE);
         final String access_token = sharedPreferences.getString(MainActivity.SP_ACCESS_TOKEN_KEY, "");
 
-
         String url = "https://account.codingblocks.com/api/users/";
         Retrofit retrofit = new Retrofit.Builder().addConverterFactory(GsonConverterFactory.create()).baseUrl(url).build();
         UserApi userApi = retrofit.create(UserApi.class);
         userApi.getMe("Bearer " + access_token).enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
-                Log.d(TAG, "onResponse: " + response.body());
+
                 setViews(response.body());
             }
 
@@ -62,7 +60,7 @@ public class DetailsActivity extends AppCompatActivity {
         TextView tvUpdatedAt = (TextView) findViewById(R.id.tvUpdatedAt);
         ImageView ivPhoto = (ImageView) findViewById(R.id.ivImageView);
 
-        Log.d(TAG, "setViews: " + tvId);
+
         tvId.setText(String.valueOf(user.getId()));
         tvUsername.setText(user.getUsername());
         tvFirstname.setText(user.getFirstname());

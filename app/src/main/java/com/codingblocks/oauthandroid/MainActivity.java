@@ -1,33 +1,19 @@
 package com.codingblocks.oauthandroid;
 
-import android.app.Activity;
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.net.Uri;
-import android.os.AsyncTask;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final String TAG = "MainActivity";
-    Button auth;
+    private Button btn_auth;
 
     private static final String CLIENT_ID = "9047417470";
     private static final String REDIRECT_URI = "http://localhost";
@@ -41,8 +27,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-        auth = (Button) findViewById(R.id.auth);
-        auth.setOnClickListener(new View.OnClickListener() {
+        btn_auth = (Button) findViewById(R.id.auth);
+        btn_auth.setOnClickListener(new View.OnClickListener() {
 
 
             @Override
@@ -68,8 +54,6 @@ public class MainActivity extends AppCompatActivity {
 
                         if (url.contains("access_token=") && !authComplete) {
                             authToken = getAccessToken(url);
-                            Log.d(TAG, "onPageFinished: " + url);
-                            Log.d(TAG, "onPageFinished: " + authToken);
                             authComplete = true;
                             SharedPreferences.Editor edit = pref.edit();
                             edit.putString(SP_ACCESS_TOKEN_KEY, authToken);
@@ -79,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
                             Intent i = new Intent(MainActivity.this, DetailsActivity.class);
                             startActivity(i);
                         } else if (url.contains("error=access_denied")) {
-                            Log.w(TAG, "ACCESS_DENIED_HERE");
                             authComplete = true;
                             auth_dialog.dismiss();
                         }
@@ -88,10 +71,10 @@ public class MainActivity extends AppCompatActivity {
                 auth_dialog.show();
                 auth_dialog.setTitle("");
                 auth_dialog.setCancelable(true);
-
             }
         });
     }
+
     private String getAccessToken(String url) {
 
         int accessTokenIndex = url.indexOf("access_token");
