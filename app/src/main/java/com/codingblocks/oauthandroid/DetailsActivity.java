@@ -1,9 +1,12 @@
 package com.codingblocks.oauthandroid;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -59,6 +62,7 @@ public class DetailsActivity extends AppCompatActivity {
         TextView tvCreatedAt = (TextView) findViewById(R.id.tvCreatedAt);
         TextView tvUpdatedAt = (TextView) findViewById(R.id.tvUpdatedAt);
         ImageView ivPhoto = (ImageView) findViewById(R.id.ivImageView);
+        Button btnLogout = (Button) findViewById(R.id.btnLogout);
 
 
         tvId.setText(String.valueOf(user.getId()));
@@ -69,5 +73,14 @@ public class DetailsActivity extends AppCompatActivity {
         tvCreatedAt.setText(user.getCreatedAt());
         tvUpdatedAt.setText(user.getUpdatedAt());
         Picasso.with(this).load(user.getPhoto()).into(ivPhoto);
+
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sharedPreferences.edit().clear().apply();
+                Intent i = new Intent(DetailsActivity.this, MainActivity.class);
+                startActivity(i);
+            }
+        });
     }
 }
