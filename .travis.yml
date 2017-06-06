@@ -31,4 +31,4 @@ licenses:
     
 
 
-script: ./gradlew assembleDebug check
+script: ./gradlew assembleDebug
