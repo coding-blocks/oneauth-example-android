@@ -35,7 +35,7 @@ public class LoginInstrumentedTest {
 
     @Test
     public void checkClientId () throws Exception {
-        onView(withId(R.id.btnLogout)).check(matches(withText("Logout"))).perform(click());
+//        onView(withId(R.id.btnLogout)).check(matches(withText("Logout"))).perform(click());
 
         onView(withId(R.id.auth))
                 .perform(click());
