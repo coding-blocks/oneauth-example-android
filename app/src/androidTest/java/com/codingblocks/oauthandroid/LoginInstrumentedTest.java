@@ -12,15 +12,15 @@ import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 /**
  * Instrumentation test, which will execute on an Android device.
@@ -30,12 +30,19 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 @RunWith(AndroidJUnit4.class)
 public class LoginInstrumentedTest {
     @Rule
-    public ActivityTestRule<MainActivity> mMainActivityActivityTestRule =
-            new ActivityTestRule<MainActivity>(MainActivity.class);
+    public ActivityTestRule<MainActivity> mainActivityActivityTestRule =
+            new ActivityTestRule<>(MainActivity.class);
+
+    private MainActivity mainActivity = null;
+
+    @Before
+    public void setUp() {
+
+        mainActivity = mainActivityActivityTestRule.getActivity();
+    }
 
     @Test
-    public void checkClientId () throws Exception {
-        onView(withId(R.id.btnLogout)).check(matches(withText("Logout"))).perform(click());
+    public void checkClientId() throws Exception {
 
         onView(withId(R.id.auth))
                 .perform(click());
@@ -62,4 +69,11 @@ public class LoginInstrumentedTest {
         loginButton.waitForExists(timeOut);
         loginButton.clickAndWaitForNewWindow();
     }
+
+    @After
+    public void tearDown() {
+
+        mainActivity = null;
+    }
+
 }
